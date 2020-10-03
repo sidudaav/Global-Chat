@@ -27,7 +27,7 @@ $(document).ready(() => {
         }
     }
 
-    setInterval(updateScroll,1000);
+    setInterval(updateScroll, 100);
 
     let id
     socket.on('connected', data => {
