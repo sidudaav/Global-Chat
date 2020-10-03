@@ -29,10 +29,6 @@ $(document).ready(() => {
 
     setInterval(updateScroll,1000);
 
-    $("#messages").on('scroll', function(){
-        scrolled=true;
-    });
-
     let id
     socket.on('connected', data => {
         id = data.id
