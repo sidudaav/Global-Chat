@@ -4,6 +4,7 @@ const server = require('http').createServer(app)
 const io = require('socket.io')(server)
 
 const Filter = require('bad-words')
+const { uniqueNamesGenerator, adjectives, colors, animals } = require('unique-names-generator');
 
 app.use(express.static(__dirname + '/public'))
 
@@ -18,14 +19,16 @@ io.on('connection', socket => {
 
     )
     io.to(socket.id).emit('connected', {
-        id: socket.id
+        id: socket.id,
+        username: uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals] })
     })
 
-    socket.on('change', data => {
+    socket.on('message', data => {
         const filter = new Filter()
         io.emit('message', {
             id: socket.id,
             msg: filter.clean(data.msg),
+            username: data.username
         })
     })
 

@@ -14,8 +14,9 @@ $(document).ready(() => {
             return false
         }
     
-        socket.emit('change', {
-            msg: msg
+        socket.emit('message', {
+            msg: msg,
+            username: username
         })
     });
 
@@ -27,11 +28,12 @@ $(document).ready(() => {
         }
     }
 
-    setInterval(updateScroll, 100);
+    setInterval(updateScroll, 1);
 
-    let id
+    let id, username
     socket.on('connected', data => {
-        id = data.id
+        id = data.id,
+        username = data.username
     })
 
     socket.on('changedTotalSockets', data => {
@@ -43,7 +45,7 @@ $(document).ready(() => {
         data.class = data.id === id ? "user-message" : "message"
 
         $('#messages').append(
-            `<li class=${data.class}>${data.msg}</li>`
+            `<li class=${data.class}>${data.username}: ${data.msg}</li>`
         )
     })
 })
